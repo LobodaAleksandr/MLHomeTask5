@@ -1,0 +1,9 @@
+*.class
+*.in
+*.out
+*~
+Test.java
+*.iml
+out/
+.idea/
+INFO/
