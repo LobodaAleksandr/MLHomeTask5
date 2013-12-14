@@ -63,6 +63,10 @@ public class LogicStreamTokenizer {
                 return Token.LP;
             case ')':
                 return Token.RP;
+            case '[':
+                return Token.LS;
+            case ']':
+                return Token.RS;
             default:
                 Token token;
                 if (ch >= 'a' && ch <= 'z') {

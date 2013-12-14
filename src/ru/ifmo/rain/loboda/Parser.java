@@ -16,7 +16,7 @@ public class Parser {
     }
 
     Parser(InputStream inputStream) throws IOException {
-        this.tokenizer = new LogicStreamTokenizer(inputStream);
+        this.tokenizer = new LogicStreamTokenizer(new MyInputStream(inputStream));
         nextExpression = get();
         if(token == Token.COMMA || token == Token.PROVABLY){
             hypothesis = new ArrayList<Expression>();
@@ -64,6 +64,7 @@ public class Parser {
                 token = tokenizer.nextToken();
                 break;
             case LP:
+            case LS:
                 skip();
                 result = term();
                 token = tokenizer.nextToken();
