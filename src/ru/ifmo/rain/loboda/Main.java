@@ -27,8 +27,8 @@ public class Main {
                 String error = checker.getLastError();
                 if(error != null){
                     printWriter.print(": " + error);
-                    break;
                 }
+                break;
             }
         }
         if(!bad){
