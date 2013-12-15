@@ -2,18 +2,19 @@ package ru.ifmo.rain.loboda;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PushbackInputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
 public class MyInputStream extends InputStream{
-    private InputStream stream;
+    private PushbackInputStream stream;
     private List<Character> buffer;
     private int pointer;
     private Stack<Integer> stack = new Stack<Integer>();
 
     MyInputStream(InputStream inputStream){
-        stream = inputStream;
+        stream = new PushbackInputStream(inputStream);
         buffer = null;
     }
 
@@ -42,8 +43,22 @@ public class MyInputStream extends InputStream{
                 stack.push(buffer.size());
                 buffer.add('(');
             } else if(result == ')'){
-                buffer.add(']');
-                buffer.set(stack.pop(), '[');
+                while(true){
+                    result = stream.read();
+                    if(result != ' '){
+                        break;
+                    }
+                }
+                if(result == '\'' || result == '*' || result == '+' || result == '='){
+                    buffer.add(']');
+                    buffer.set(stack.pop(), '[');
+                } else {
+                    stack.pop();
+                    buffer.add(')');
+                }
+                if(result != -1){
+                    stream.unread(result);
+                }
             } else {
                 buffer.add((char)result);
             }
